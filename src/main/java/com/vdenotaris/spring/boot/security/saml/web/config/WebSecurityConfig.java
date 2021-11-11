@@ -270,6 +270,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
 		return extendedMetadataDelegate;
 	}
 
+    @Bean
+    @Qualifier("idp-okta-prophia")
+    public ExtendedMetadataDelegate oktaExtendedMetadataProvider()
+        throws MetadataProviderException {
+        String idpOktaProphiaMetadataURL = "https://prophia.okta.com/app/exk2jsdei0FYLK2D35d7/sso/saml/metadata";
+        HTTPMetadataProvider httpMetadataProvider = new HTTPMetadataProvider(
+            this.backgroundTaskTimer, httpClient(), idpOktaProphiaMetadataURL);
+        httpMetadataProvider.setParserPool(parserPool());
+        ExtendedMetadataDelegate extendedMetadataDelegate =
+            new ExtendedMetadataDelegate(httpMetadataProvider, extendedMetadata());
+        extendedMetadataDelegate.setMetadataTrustCheck(true);
+        extendedMetadataDelegate.setMetadataRequireSignature(false);
+        backgroundTaskTimer.purge();
+        return extendedMetadataDelegate;
+    }
+
     // IDP Metadata configuration - paths to metadata of IDPs in circle of trust
     // is here
     // Do no forget to call iniitalize method on providers
@@ -278,6 +294,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
     public CachingMetadataManager metadata() throws MetadataProviderException {
         List<MetadataProvider> providers = new ArrayList<MetadataProvider>();
         providers.add(ssoCircleExtendedMetadataProvider());
+        providers.add(oktaExtendedMetadataProvider());
         return new CachingMetadataManager(providers);
     }
  
