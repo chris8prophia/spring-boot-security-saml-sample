@@ -1,0 +1,49 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.vdenotaris.spring'
+version = '2.3.1.RELEASE'
+
+description = """Spring Boot sample SAML 2.0 Service Provider"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+
+
+repositories {
+     mavenCentral()
+     maven { url "https://build.shibboleth.net/nexus/content/repositories/releases/" }
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compile(group: 'org.springframework.boot', name: 'spring-boot-starter', version:'2.2.4.RELEASE') {
+exclude(module: 'spring-boot-starter-logging')
+    }
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.2.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:'2.2.4.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:'2.2.4.RELEASE'
+    compile group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version:'2.4.1'
+    compile(group: 'org.springframework.security.extensions', name: 'spring-security-saml2-core', version:'1.0.10.RELEASE') {
+exclude(module: 'commons-collections')
+    }
+    compile group: 'commons-collections', name: 'commons-collections', version:'3.2.2'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.2.4.RELEASE'
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version:'5.2.1.RELEASE'
+    compileOnly group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version:'2.2.4.RELEASE'
+}

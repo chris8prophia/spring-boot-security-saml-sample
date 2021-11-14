@@ -63,4 +63,15 @@ public class SSOController {
 		}
 	}
 
+	// TODO /sso has routing somewhere and not here
+	@RequestMapping(value = "/sso", method = RequestMethod.POST)
+	public void sso(HttpServletRequest request, Model model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null)
+			LOG.error("Current authentication instance from security context is null");
+		else
+			LOG.error("Current authentication instance from security context: "
+				+ this.getClass().getSimpleName());
+	}
+
 }

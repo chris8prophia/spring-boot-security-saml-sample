@@ -221,6 +221,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
     
     @Bean
     public WebSSOProfileOptions defaultWebSSOProfileOptions() {
+        // TODO possible to get dynamic IdPs?
         WebSSOProfileOptions webSSOProfileOptions = new WebSSOProfileOptions();
         webSSOProfileOptions.setIncludeScoping(false);
         return webSSOProfileOptions;
@@ -292,6 +293,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
     @Bean
     @Qualifier("metadata")
     public CachingMetadataManager metadata() throws MetadataProviderException {
+        // TODO is there a way to provide a dynamic loading manager
         List<MetadataProvider> providers = new ArrayList<MetadataProvider>();
         providers.add(ssoCircleExtendedMetadataProvider());
         providers.add(oktaExtendedMetadataProvider());
@@ -319,6 +321,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
     // Handler deciding where to redirect user after successful login
     @Bean
     public SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler() {
+        // TODO extend SavedRequestAwareAuthenticationSuccessHandler to provide custom redirect url to include one time auth token
         SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler =
                 new SavedRequestAwareAuthenticationSuccessHandler();
         successRedirectHandler.setDefaultTargetUrl("/landing");
@@ -511,6 +514,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
         		.logout()
         			.disable();	// The logout procedure is already handled by SAML filters.
     }
+
+    /* TODO this might be the way to ignore non SAML urls
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/api/v1/signup", "/favicon.ico");
+    }
+
+     */
  
     /**
      * Sets a custom authentication provider.

@@ -44,3 +44,6 @@ hs_err_pid*
 
 # Custom domain settings
 CNAME
+
+build/**
+**/.gradle/**
