@@ -37,7 +37,8 @@ public class SAMLUserDetailsServiceImpl implements SAMLUserDetailsService {
 	
 	public Object loadUserBySAML(SAMLCredential credential)
 			throws UsernameNotFoundException {
-		
+		// TODO do something to get the username
+
 		// The method is supposed to identify local account of user referenced by
 		// data in the SAML assertion and return UserDetails object describing the user.
 		
@@ -51,7 +52,8 @@ public class SAMLUserDetailsServiceImpl implements SAMLUserDetailsService {
 		// In a real scenario, this implementation has to locate user in a arbitrary
 		// dataStore based on information present in the SAMLCredential and
 		// returns such a date in a form of application specific UserDetails object.
-		return new User(userID, "<abc123>", true, true, true, true, authorities);
+		// TODO do something to help later logic
+		return new User(userID, "fake", true, true, true, true, authorities);
 	}
 	
 }

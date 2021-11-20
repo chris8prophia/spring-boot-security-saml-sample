@@ -89,6 +89,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
@@ -317,7 +318,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
     public MetadataDisplayFilter metadataDisplayFilter() {
         return new MetadataDisplayFilter();
     }
-     
+
+    /*
     // Handler deciding where to redirect user after successful login
     @Bean
     public SavedRequestAwareAuthenticationSuccessHandler successRedirectHandler() {
@@ -327,7 +329,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
         successRedirectHandler.setDefaultTargetUrl("/landing");
         return successRedirectHandler;
     }
-    
+    */
+
+    @Bean
+    public CustomAuthenticationSuccessHandler successRedirectHandler() {
+        CustomAuthenticationSuccessHandler successRedirectHandler =
+            new CustomAuthenticationSuccessHandler();
+        successRedirectHandler.setDefaultTargetUrl("/landing");
+        return successRedirectHandler;
+    }
+
 	// Handler deciding where to redirect user after failed login
     @Bean
     public SimpleUrlAuthenticationFailureHandler authenticationFailureHandler() {
